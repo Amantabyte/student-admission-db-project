@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Frontend Backend Database Flow</title>
+  <desc id="desc">A request travels from browser frontend to REST API to Express backend to PostgreSQL, then returns JSON.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#135d66"/>
+    </marker>
+    <linearGradient id="bg" x1="0" x2="1">
+      <stop offset="0" stop-color="#eefcf8"/>
+      <stop offset="1" stop-color="#fff6df"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="420" rx="34" fill="url(#bg)"/>
+  <text x="600" y="54" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#17352f">One Click Becomes a Database Row</text>
+  <g font-family="Verdana, sans-serif">
+    <rect x="50" y="135" width="165" height="130" rx="24" fill="#ffffff" stroke="#135d66" stroke-width="4"/>
+    <text x="132" y="180" text-anchor="middle" font-size="23" font-weight="700" fill="#135d66">Frontend</text>
+    <text x="132" y="215" text-anchor="middle" font-size="16" fill="#3a5a53">HTML form</text>
+    <text x="132" y="240" text-anchor="middle" font-size="16" fill="#3a5a53">fetch()</text>
+    <line x1="225" y1="200" x2="330" y2="200" stroke="#135d66" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="345" y="135" width="165" height="130" rx="24" fill="#ffffff" stroke="#e07a2f" stroke-width="4"/>
+    <text x="428" y="180" text-anchor="middle" font-size="23" font-weight="700" fill="#9b4e18">REST API</text>
+    <text x="428" y="215" text-anchor="middle" font-size="16" fill="#5f4a3b">POST /api</text>
+    <text x="428" y="240" text-anchor="middle" font-size="16" fill="#5f4a3b">JSON body</text>
+    <line x1="520" y1="200" x2="625" y2="200" stroke="#135d66" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="640" y="135" width="165" height="130" rx="24" fill="#ffffff" stroke="#5d6adf" stroke-width="4"/>
+    <text x="723" y="180" text-anchor="middle" font-size="23" font-weight="700" fill="#3844ac">Backend</text>
+    <text x="723" y="215" text-anchor="middle" font-size="16" fill="#414564">validate</text>
+    <text x="723" y="240" text-anchor="middle" font-size="16" fill="#414564">SQL query</text>
+    <line x1="815" y1="200" x2="920" y2="200" stroke="#135d66" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="935" y="135" width="215" height="130" rx="24" fill="#ffffff" stroke="#2f7d32" stroke-width="4"/>
+    <text x="1042" y="180" text-anchor="middle" font-size="23" font-weight="700" fill="#2f7d32">PostgreSQL</text>
+    <text x="1042" y="215" text-anchor="middle" font-size="16" fill="#3d5d3f">students table</text>
+    <text x="1042" y="240" text-anchor="middle" font-size="16" fill="#3d5d3f">row stored</text>
+    <path d="M 1035 295 C 920 360, 300 360, 155 295" fill="none" stroke="#135d66" stroke-width="5" marker-end="url(#arrow)"/>
+    <text x="600" y="350" text-anchor="middle" font-size="20" font-weight="700" fill="#17352f">JSON response returns to the browser</text>
+  </g>
+</svg>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Admission System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">PostgreSQL + Express + Plain JavaScript</p>
+      <h1>Student Admission System</h1>
+      <p>Create students, courses, applications, and documents through REST APIs backed by relational tables.</p>
+    </div>
+    <div>
+      <a class="button ghost" href="learning/index.html">Learning Page</a>
+      <a class="button ghost" href="docs.html">Quick Docs</a>
+      <a class="button ghost" href="https://github.com/Amantabyte/student-admission-db-project" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>Create Student</h2>
+      <form id="studentForm">
+        <input name="admission_number" placeholder="Admission number e.g. A1001" required>
+        <input name="name" placeholder="Student name" required>
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="phone" placeholder="Phone">
+        <label>Date of birth <input name="date_of_birth" type="date"></label>
+        <button type="submit">Create Student</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Find / List Students</h2>
+      <div class="row">
+        <input id="searchAdmissionNumber" placeholder="Admission number">
+        <button id="searchStudentBtn">Search</button>
+      </div>
+      <button id="listStudentsBtn">List Students</button>
+    </section>
+
+    <section class="panel">
+      <h2>Update Student Contact</h2>
+      <form id="updateStudentForm">
+        <input name="id" placeholder="Student UUID" required>
+        <input name="email" type="email" placeholder="New email">
+        <input name="phone" placeholder="New phone">
+        <button type="submit">Update Email / Phone</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Delete Student</h2>
+      <form id="deleteStudentForm">
+        <input name="id" placeholder="Student UUID" required>
+        <button class="danger" type="submit">Delete Student</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Create Course</h2>
+      <form id="courseForm">
+        <input name="name" placeholder="Course name" required>
+        <input name="code" placeholder="Course code" required>
+        <input name="duration_months" type="number" min="1" placeholder="Duration months" required>
+        <button type="submit">Create Course</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Create Application</h2>
+      <form id="applicationForm">
+        <input name="student_id" placeholder="Student UUID" required>
+        <input name="course_id" placeholder="Course UUID" required>
+        <select name="status">
+          <option value="pending">pending</option>
+          <option value="accepted">accepted</option>
+          <option value="rejected">rejected</option>
+        </select>
+        <button type="submit">Create Application</button>
+      </form>
+      <button id="listApplicationsBtn">List Applications</button>
+    </section>
+
+    <section class="panel">
+      <h2>Create Document URL</h2>
+      <form id="documentForm">
+        <input name="student_id" placeholder="Student UUID" required>
+        <input name="file_name" placeholder="File name" required>
+        <input name="file_url" placeholder="File URL" required>
+        <button type="submit">Save Document</button>
+      </form>
+      <button id="listDocumentsBtn">List Documents</button>
+    </section>
+
+    <section class="panel output-panel">
+      <h2>API Response</h2>
+      <pre id="output">Responses appear here.</pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

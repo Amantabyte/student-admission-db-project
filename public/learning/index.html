@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn the Student Admission System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="topbar">
+    <a class="brand" href="../index.html">Student Admission DB</a>
+    <nav class="top-links" aria-label="Primary">
+      <a href="../index.html">App</a>
+      <a href="../docs.html">Quick Docs</a>
+      <a href="https://github.com/Amantabyte/student-admission-db-project" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="#practice">Practice</a>
+    </nav>
+  </header>
+
+  <aside class="sidebar" aria-label="Learning sections">
+    <p class="nav-title">Learning Path</p>
+    <a href="#intro">1. Introduction</a>
+    <a href="#github-repository">GitHub Repository</a>
+    <a href="#how-to-use">How to Use</a>
+    <a href="#local-setup">Local Setup</a>
+    <a href="#github-upload">GitHub Upload</a>
+    <a href="#big-picture">2. End-to-End Flow</a>
+    <a href="#folder-structure">3. Folder Structure</a>
+    <a href="#architecture">4. Architecture</a>
+    <a href="#schema">5. Database Schema</a>
+    <a href="#erd">6. ERD</a>
+    <a href="#uuid">7. Primary Key + UUID</a>
+    <a href="#foreign-keys">8. Foreign Keys</a>
+    <a href="#constraints">9. Constraints</a>
+    <a href="#crud">10. CRUD + DML</a>
+    <a href="#routes">11. REST Routes</a>
+    <a href="#injection">12. SQL Injection</a>
+    <a href="#documents">13. Documents</a>
+    <a href="#migrations">14. Migrations</a>
+    <a href="#backend">15. Backend Code</a>
+    <a href="#frontend">16. Frontend Code</a>
+    <a href="#example">17. Full Example</a>
+    <a href="#demos">18. Interactive Demos</a>
+    <a href="#misconceptions">19. Misconceptions</a>
+    <a href="#summary">20. Summary</a>
+    <a href="#practice">21. Practice</a>
+  </aside>
+
+  <main id="main" class="content">
+    <section id="intro" class="hero section">
+      <p class="eyebrow">Beginner-friendly full-stack database guide</p>
+      <h1>Learn the Student Admission System from Scratch</h1>
+      <p class="lead">This website explains how this exact project works: a browser frontend talks to an Express REST API, the backend runs safe PostgreSQL queries, and the database enforces schema rules.</p>
+      <div class="hero-actions">
+        <a class="button" href="#big-picture">Start learning</a>
+        <a class="button secondary" href="../index.html">Open working app</a>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>Frontend</h3><p>HTML forms and JavaScript buttons collect user input and call APIs.</p></article>
+        <article class="card"><h3>Backend</h3><p>Express route handlers validate requests and execute SQL through <code>pg</code>.</p></article>
+        <article class="card"><h3>Database</h3><p>PostgreSQL stores relational data and blocks invalid rows with constraints.</p></article>
+      </div>
+    </section>
+
+    <section id="github-repository" class="section github-section">
+      <div class="github-card">
+        <div>
+          <p class="eyebrow">Source Code</p>
+          <h2>GitHub Repository</h2>
+          <p class="lead">View source code, clone the project, and follow the setup steps.</p>
+          <p>A GitHub repository stores the project files, version history, documentation, and setup instructions.</p>
+          <p class="repo-url">https://github.com/Amantabyte/student-admission-db-project</p>
+        </div>
+        <a class="button github-button" href="https://github.com/Amantabyte/student-admission-db-project" target="_blank" rel="noopener noreferrer">Open GitHub Repository</a>
+      </div>
+    </section>
+
+    <section id="how-to-use" class="section">
+      <h2>How to Use This Project</h2>
+      <p>Use this repository as a guided lab. Do not only run it; read each layer and connect it to the database concepts.</p>
+      <div class="setup-timeline">
+        <article><span>Step 1</span><h3>Open the learning page</h3><p>Start from <code>public/learning/index.html</code> and understand the full frontend → backend → database flow.</p></article>
+        <article><span>Step 2</span><h3>Read the database schema</h3><p>Open <code>db/schema.sql</code> and study tables, columns, primary keys, foreign keys, and constraints.</p></article>
+        <article><span>Step 3</span><h3>Study migrations</h3><p>Open <code>db/migrations</code> and compare up scripts with down scripts.</p></article>
+        <article><span>Step 4</span><h3>Study backend routes</h3><p>Open <code>routes/students.js</code>, <code>routes/courses.js</code>, <code>routes/applications.js</code>, and <code>routes/documents.js</code>. Map each REST API to SQL.</p></article>
+        <article><span>Step 5</span><h3>Study frontend code</h3><p>Open <code>public/index.html</code> and <code>public/app.js</code>. See how forms send <code>fetch()</code> requests.</p></article>
+        <article><span>Step 6</span><h3>Run locally</h3><p>Install dependencies, create PostgreSQL database, configure <code>.env</code>, run schema, start server, and open the browser.</p></article>
+        <article><span>Step 7</span><h3>Test CRUD</h3><p>Create, search, update, and delete students. Then create courses, create applications, and update application status.</p></article>
+        <article><span>Step 8</span><h3>Review security</h3><p>Look at parameterized queries and understand how SQL injection is prevented.</p></article>
+      </div>
+    </section>
+
+    <section id="local-setup" class="section">
+      <h2>Local Setup Guide</h2>
+      <div class="callout">Prerequisites: Node.js installed, PostgreSQL installed, Git installed, and VS Code recommended.</div>
+      <h3>Clone repository</h3>
+      <pre class="copyable"><code>git clone https://github.com/Amantabyte/student-admission-db-project.git
+cd student-admission-db-project</code></pre>
+      <p>This downloads the project files and moves your terminal into the project folder.</p>
+      <h3>Install dependencies</h3>
+      <pre class="copyable"><code>npm install</code></pre>
+      <p>This installs all Node.js dependencies listed in <code>package.json</code>.</p>
+      <h3>Create PostgreSQL database</h3>
+      <pre class="copyable"><code>createdb student_admission_db</code></pre>
+      <p>This creates the PostgreSQL database where project data will be stored.</p>
+      <h3>Create .env file</h3>
+      <pre class="copyable"><code>cp .env.example .env</code></pre>
+      <p>This creates your local environment file. Do not commit <code>.env</code> to GitHub.</p>
+      <pre class="copyable"><code>PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=student_admission_db
+DB_USER=postgres
+DB_PASSWORD=your_password_here</code></pre>
+      <h3>Run schema</h3>
+      <pre class="copyable"><code>psql -d student_admission_db -f db/schema.sql</code></pre>
+      <p>This creates the tables, UUID defaults, foreign keys, and constraints.</p>
+      <h3>Optional seed data</h3>
+      <pre class="copyable"><code>psql -d student_admission_db -f db/seed.sql</code></pre>
+      <p>This inserts sample students, courses, an application, and a document row.</p>
+      <h3>Start server</h3>
+      <pre class="copyable"><code>npm run dev</code></pre>
+      <p>This starts the Express server with auto-restart using Nodemon.</p>
+      <h3>Open in browser</h3>
+      <pre class="copyable"><code>http://localhost:3000
+http://localhost:3000/learning/index.html
+http://localhost:3000/docs.html</code></pre>
+      <div class="warning">Never commit <code>.env</code> or <code>node_modules</code>. Commit <code>.env.example</code> so other learners know which variables to create.</div>
+    </section>
+
+    <section id="github-upload" class="section">
+      <h2>GitHub Upload Guide</h2>
+      <p>Use these commands from the project root after creating an empty GitHub repository named <code>student-admission-db-project</code>.</p>
+      <pre class="copyable"><code>git init
+git add .
+git commit -m "Initial commit: student admission database learning project"
+git branch -M main
+git remote add origin https://github.com/Amantabyte/student-admission-db-project.git
+git push -u origin main</code></pre>
+      <div class="card-grid two">
+        <article class="card"><h3>Commit <code>.env.example</code></h3><p>It documents required variables without exposing private passwords.</p></article>
+        <article class="card"><h3>Do not commit <code>.env</code></h3><p>It may contain your real database username and password.</p></article>
+        <article class="card"><h3>Ignore <code>node_modules</code></h3><p>Dependencies are recreated by running <code>npm install</code>.</p></article>
+        <article class="card"><h3>Keep README accurate</h3><p>GitHub visitors usually read <code>README.md</code> first.</p></article>
+      </div>
+    </section>
+
+    <section id="big-picture" class="section">
+      <h2>2. Big Picture: End-to-End Flow</h2>
+      <p>This application solves an admission office problem: create students, create courses, record applications, track status, and attach document URLs.</p>
+      <figure class="diagram">
+        <img src="assets/frontend-backend-db-flow.svg" alt="Frontend to backend to PostgreSQL request flow">
+      </figure>
+      <div class="steps">
+        <div><strong>1. Browser collects form data.</strong><span>The user fills the Create Student form.</span></div>
+        <div><strong>2. Frontend sends fetch request.</strong><span><code>public/app.js</code> sends JSON to <code>POST /api/students</code>.</span></div>
+        <div><strong>3. Backend receives request.</strong><span><code>server.js</code> routes it to <code>routes/students.js</code>.</span></div>
+        <div><strong>4. Backend validates data.</strong><span>Required fields like admission number, name, and email are checked.</span></div>
+        <div><strong>5. SQL query runs.</strong><span>The route runs a parameterized <code>INSERT</code>.</span></div>
+        <div><strong>6. PostgreSQL stores data.</strong><span>Defaults, primary keys, unique rules, and checks are enforced.</span></div>
+        <div><strong>7. JSON comes back.</strong><span>Express returns the saved row.</span></div>
+        <div><strong>8. Frontend displays result.</strong><span>The response panel shows formatted JSON.</span></div>
+      </div>
+      <div class="callout">The frontend never directly accesses PostgreSQL because browser code is public. Database credentials, SQL permissions, validation, and security must stay on the backend.</div>
+    </section>
+
+    <section id="folder-structure" class="section">
+      <h2>3. Project Folder Structure</h2>
+      <pre><code>student-admission-db-project/
+  server.js                  Express server entry point
+  package.json               dependencies and scripts
+  .env.example               environment variable example
+  db/
+    connection.js            PostgreSQL pool using pg
+    schema.sql               complete schema in one file
+    seed.sql                 sample data
+    migrations/              up/down schema scripts
+  routes/
+    students.js              student CRUD routes
+    courses.js               course CRUD routes
+    applications.js          application routes
+    documents.js             document URL routes
+  public/
+    index.html               working app UI
+    app.js                   frontend fetch calls
+    docs.html                quick concept page
+    learning/index.html      this learning website</code></pre>
+      <div class="card-grid two">
+        <article class="card"><h3><code>server.js</code></h3><p>Starts Express, serves static files from <code>public</code>, mounts routes under <code>/api</code>, and converts database errors into JSON responses.</p></article>
+        <article class="card"><h3><code>db/connection.js</code></h3><p>Creates a PostgreSQL connection pool from <code>DATABASE_URL</code> or separate <code>DB_HOST</code>/<code>DB_USER</code> variables. Route files use it as <code>db.query(sql, values)</code>.</p></article>
+        <article class="card"><h3><code>db/migrations</code></h3><p>Contains reversible schema files. Up scripts create tables. Down scripts drop them in reverse order.</p></article>
+        <article class="card"><h3><code>routes/*.js</code></h3><p>Each route file maps HTTP methods to SQL commands for one resource.</p></article>
+      </div>
+    </section>
+
+    <section id="architecture" class="section">
+      <h2>4. Architecture Diagram</h2>
+      <figure class="diagram">
+        <img src="assets/architecture-flow.svg" alt="Layered architecture diagram">
+      </figure>
+      <p>The architecture is layered. The browser does UI work. The API exposes controlled operations. Route handlers execute SQL. PostgreSQL stores rows and enforces relational rules.</p>
+    </section>
+
+    <section id="schema" class="section">
+      <h2>5. Database Schema</h2>
+      <p>A relational schema is the design of your database: tables, columns, data types, keys, and constraints. This schema models the admission domain as four tables.</p>
+      <article class="table-card">
+        <h3>students</h3>
+        <p>Stores student identity and contact information.</p>
+        <pre><code>CREATE TABLE IF NOT EXISTS students (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  admission_number VARCHAR(30) UNIQUE NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  phone VARCHAR(20),
+  date_of_birth DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</code></pre>
+        <p><strong>Example row:</strong> <code>A1001, Anita Sharma, anita.sharma@example.com</code>. The primary key is <code>id</code>. Unique constraints prevent duplicate admission numbers and emails.</p>
+      </article>
+      <article class="table-card">
+        <h3>courses</h3>
+        <p>Stores courses that students can apply for.</p>
+        <pre><code>CREATE TABLE IF NOT EXISTS courses (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(100) NOT NULL,
+  code VARCHAR(20) UNIQUE NOT NULL,
+  duration_months INT CHECK (duration_months &gt; 0)
+);</code></pre>
+        <p><strong>Example row:</strong> <code>BCA, Bachelor of Computer Applications, 36</code>. The check blocks zero or negative durations.</p>
+      </article>
+      <article class="table-card">
+        <h3>applications</h3>
+        <p>Connects one student to one course and stores the admission decision state.</p>
+        <pre><code>CREATE TABLE IF NOT EXISTS applications (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  student_id UUID NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+  course_id UUID NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+  status VARCHAR(30) DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(student_id, course_id),
+  CHECK (status IN ('pending', 'accepted', 'rejected'))
+);</code></pre>
+        <p>Foreign keys block fake students/courses. The unique pair blocks duplicate applications for the same student and course.</p>
+      </article>
+      <article class="table-card">
+        <h3>documents</h3>
+        <p>Stores document metadata and URLs for each student.</p>
+        <pre><code>CREATE TABLE IF NOT EXISTS documents (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  student_id UUID NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+  file_name VARCHAR(255) NOT NULL,
+  file_url TEXT NOT NULL,
+  uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</code></pre>
+        <p>The database stores <code>file_url</code>, not the actual binary file. The foreign key ensures every document belongs to a real student.</p>
+      </article>
+    </section>
+
+    <section id="erd" class="section">
+      <h2>6. ERD</h2>
+      <figure class="diagram">
+        <img src="assets/erd-diagram.svg" alt="Entity relationship diagram">
+      </figure>
+      <div class="card-grid">
+        <article class="card"><h3>Entity</h3><p>A thing stored in the database, like <code>students</code> or <code>courses</code>.</p></article>
+        <article class="card"><h3>Attribute</h3><p>A column, like <code>email</code>, <code>status</code>, or <code>file_url</code>.</p></article>
+        <article class="card"><h3>Relationship</h3><p>A connection between tables, usually enforced with foreign keys.</p></article>
+        <article class="card"><h3>1:N</h3><p>One student can have many applications. One course can have many applications.</p></article>
+      </div>
+      <p><code>applications</code> acts like a junction table between students and courses, but it also stores extra business data such as <code>status</code>. A pure many-to-many design would use a junction table such as <code>student_courses(student_id, course_id)</code>.</p>
+    </section>
+
+    <section id="uuid" class="section">
+      <h2>7. Primary Key and UUID</h2>
+      <p>A primary key uniquely identifies one row. This project uses <code>UUID PRIMARY KEY DEFAULT gen_random_uuid()</code> for every table.</p>
+      <figure class="diagram">
+        <img src="assets/uuid-distributed-system.svg" alt="Distributed servers generating UUIDs">
+      </figure>
+      <div class="compare">
+        <div><h3>UUID</h3><p>128-bit identifier such as <code>4770fa87-a115-44e7-be44-f7cf5e2f1d49</code>. Good for distributed systems and public APIs.</p></div>
+        <div><h3>SERIAL / BIGSERIAL</h3><p>Sequential numbers like <code>1, 2, 3</code>. Simpler and smaller, but predictable and centralized.</p></div>
+      </div>
+    </section>
+
+    <section id="foreign-keys" class="section">
+      <h2>8. Foreign Keys and Referential Integrity</h2>
+      <p>Foreign keys make relationships real. They force child rows to reference existing parent rows.</p>
+      <pre><code>applications.student_id → students.id
+applications.course_id  → courses.id
+documents.student_id    → students.id</code></pre>
+      <div class="callout">Referential integrity means relationships stay valid. An application cannot reference a fake course, and a document cannot belong to a non-existing student.</div>
+    </section>
+
+    <section id="constraints" class="section">
+      <h2>9. Constraints</h2>
+      <div class="constraint-grid">
+        <article><h3>PRIMARY KEY</h3><p>Unique row identity. Used on every <code>id</code>. Blocks duplicate IDs.</p><pre><code>id UUID PRIMARY KEY</code></pre></article>
+        <article><h3>FOREIGN KEY</h3><p>Requires a matching parent row. Used by <code>applications</code> and <code>documents</code>.</p><pre><code>student_id UUID REFERENCES students(id)</code></pre></article>
+        <article><h3>NOT NULL</h3><p>Requires a value. Blocks a student without a name.</p><pre><code>name VARCHAR(100) NOT NULL</code></pre></article>
+        <article><h3>UNIQUE</h3><p>Prevents duplicates. Blocks two students with the same email.</p><pre><code>email VARCHAR(255) UNIQUE</code></pre></article>
+        <article><h3>CHECK</h3><p>Enforces a rule. Blocks status <code>waiting</code>.</p><pre><code>CHECK (status IN ('pending','accepted','rejected'))</code></pre></article>
+        <article><h3>DEFAULT</h3><p>Fills missing values. Creates UUIDs and timestamps automatically.</p><pre><code>created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP</code></pre></article>
+      </div>
+      <p><strong>Valid insert:</strong></p>
+      <pre><code>INSERT INTO courses (name, code, duration_months)
+VALUES ('Bachelor of Science', 'BSC', 36);</code></pre>
+      <p><strong>Invalid insert blocked by CHECK:</strong></p>
+      <pre><code>INSERT INTO courses (name, code, duration_months)
+VALUES ('Broken Course', 'BAD', -3);</code></pre>
+    </section>
+
+    <section id="crud" class="section">
+      <h2>10. CRUD and DML</h2>
+      <p>DML means Data Manipulation Language: <code>INSERT</code>, <code>SELECT</code>, <code>UPDATE</code>, and <code>DELETE</code>.</p>
+      <figure class="diagram">
+        <img src="assets/rest-to-sql-flow.svg" alt="CRUD REST SQL mapping">
+      </figure>
+      <table>
+        <thead><tr><th>CRUD</th><th>REST Method</th><th>SQL</th><th>Project Example</th></tr></thead>
+        <tbody>
+          <tr><td>Create</td><td>POST</td><td>INSERT</td><td><code>POST /api/students</code></td></tr>
+          <tr><td>Read</td><td>GET</td><td>SELECT</td><td><code>GET /api/students</code></td></tr>
+          <tr><td>Update</td><td>PATCH/PUT</td><td>UPDATE</td><td><code>PATCH /api/students/:id</code></td></tr>
+          <tr><td>Delete</td><td>DELETE</td><td>DELETE</td><td><code>DELETE /api/students/:id</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="routes" class="section">
+      <h2>11. REST API Routes</h2>
+      <div class="route-list">
+        <details open><summary>Students routes</summary>
+          <pre><code>POST   /api/students
+GET    /api/students
+GET    /api/students?admission_number=A1001
+GET    /api/students/:id
+PATCH  /api/students/:id
+PUT    /api/students/:id
+DELETE /api/students/:id</code></pre>
+          <pre><code>INSERT INTO students (admission_number, name, email, phone, date_of_birth)
+VALUES ($1, $2, $3, $4, $5)
+RETURNING *;</code></pre>
+        </details>
+        <details><summary>Courses routes</summary>
+          <pre><code>POST   /api/courses
+GET    /api/courses
+GET    /api/courses/:id
+PATCH  /api/courses/:id
+DELETE /api/courses/:id</code></pre>
+          <pre><code>INSERT INTO courses (name, code, duration_months)
+VALUES ($1, $2, $3)
+RETURNING *;</code></pre>
+        </details>
+        <details><summary>Applications routes</summary>
+          <pre><code>POST   /api/applications
+GET    /api/applications
+GET    /api/applications/:id
+PATCH  /api/applications/:id/status
+DELETE /api/applications/:id</code></pre>
+          <pre><code>UPDATE applications
+SET status = $1
+WHERE id = $2
+RETURNING *;</code></pre>
+        </details>
+        <details><summary>Documents routes</summary>
+          <pre><code>POST   /api/documents
+GET    /api/documents
+GET    /api/documents/student/:studentId
+DELETE /api/documents/:id</code></pre>
+          <pre><code>SELECT * FROM documents
+WHERE student_id = $1
+ORDER BY uploaded_at DESC;</code></pre>
+        </details>
+      </div>
+      <p>Path params come from the URL, query params come after <code>?</code>, and request bodies are JSON sent with POST/PATCH/PUT.</p>
+    </section>
+
+    <section id="injection" class="section">
+      <h2>12. SQL Injection</h2>
+      <figure class="diagram">
+        <img src="assets/sql-injection-safe-vs-unsafe.svg" alt="Unsafe SQL concatenation compared with safe parameterized SQL">
+      </figure>
+      <p>SQL injection happens when user input becomes executable SQL.</p>
+      <pre><code>// Bad: input is concatenated into SQL text.
+const sql = "SELECT * FROM students WHERE admission_number = '" + input + "'";</code></pre>
+      <pre><code>// Safe: SQL text and input values are separate.
+await db.query(
+  "SELECT * FROM students WHERE admission_number = $1",
+  [input]
+);</code></pre>
+      <div class="warning">Constraints improve data quality, but they do not replace parameterized queries. You need both.</div>
+    </section>
+
+    <section id="documents" class="section">
+      <h2>13. PostgreSQL and Images/Documents</h2>
+      <p>PostgreSQL can store binary data using <code>BYTEA</code>. Real systems often store files in object storage and keep only metadata in the database.</p>
+      <pre><code>{
+  "student_id": "student-uuid",
+  "file_name": "marksheet.pdf",
+  "file_url": "https://storage.example.com/marksheet.pdf"
+}</code></pre>
+      <p>This project uses <code>documents.file_url</code> because URLs keep the database small and make file delivery easier.</p>
+    </section>
+
+    <section id="migrations" class="section">
+      <h2>14. Migrations</h2>
+      <figure class="diagram">
+        <img src="assets/migration-up-down.svg" alt="Migration up and down flow">
+      </figure>
+      <p>Migrations are schema changes saved as files. Teams use them so everyone applies the same database changes in the same order.</p>
+      <pre><code>-- up.sql
+ALTER TABLE students ADD COLUMN date_of_birth DATE;
+
+-- down.sql
+ALTER TABLE students DROP COLUMN date_of_birth;</code></pre>
+      <p>This project has four migration pairs: students, courses, applications, and documents. Run up scripts in dependency order and down scripts in reverse order.</p>
+      <pre><code>psql -d student_admission_db -f db/migrations/001_create_students_up.sql
+psql -d student_admission_db -f db/migrations/002_create_courses_up.sql
+psql -d student_admission_db -f db/migrations/003_create_applications_up.sql
+psql -d student_admission_db -f db/migrations/004_create_documents_up.sql</code></pre>
+      <p>A production migration tool usually records applied versions in a table such as <code>schema_migrations</code>. This project keeps migration files simple for learning.</p>
+    </section>
+
+    <section id="backend" class="section">
+      <h2>15. Backend Code Walkthrough</h2>
+      <p><code>server.js</code> starts Express, enables JSON parsing, serves frontend files, mounts routers, and handles errors.</p>
+      <pre><code>app.use(express.json());
+app.use(express.static('public'));
+app.use('/api/students', studentRoutes);</code></pre>
+      <p><code>db/connection.js</code> creates the PostgreSQL pool.</p>
+      <pre><code>const pool = new Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD
+});
+
+module.exports = {
+  query: (text, params) =&gt; pool.query(text, params)
+};</code></pre>
+      <p>The project also supports <code>DATABASE_URL</code> as an optional single connection string.</p>
+      <p>Routes read request data from three places:</p>
+      <pre><code>req.body              // JSON body
+req.query             // ?admission_number=A1001
+req.params.id         // /api/students/:id</code></pre>
+    </section>
+
+    <section id="frontend" class="section">
+      <h2>16. Frontend Code Walkthrough</h2>
+      <p><code>public/index.html</code> contains forms and buttons. <code>public/app.js</code> listens to events, converts form fields to JSON, calls the API, and displays JSON responses.</p>
+      <pre><code>fetch('/api/students', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(formData)
+});</code></pre>
+      <p>The frontend has no SQL, no database password, and no direct PostgreSQL connection. That keeps data access controlled by the backend.</p>
+    </section>
+
+    <section id="example" class="section">
+      <h2>17. Complete End-to-End Example</h2>
+      <div class="flow-cards">
+        <article><span>Step 1</span><h3>Aman fills form</h3><pre><code>{ "admission_number": "A2001", "name": "Aman", "email": "aman@example.com" }</code></pre></article>
+        <article><span>Step 2</span><h3>Frontend sends request</h3><pre><code>POST /api/students
+Content-Type: application/json</code></pre></article>
+        <article><span>Step 3</span><h3>Express route runs</h3><pre><code>router.post('/', async (req, res, next) =&gt; { ... })</code></pre></article>
+        <article><span>Step 4</span><h3>SQL INSERT</h3><pre><code>INSERT INTO students (...)
+VALUES ($1, $2, $3, $4, $5)
+RETURNING *</code></pre></article>
+        <article><span>Step 5</span><h3>Database row</h3><p>PostgreSQL creates a UUID and stores Aman.</p></article>
+        <article><span>Step 6</span><h3>JSON response</h3><p>The frontend displays the saved row in the response panel.</p></article>
+      </div>
+      <p>Then Aman can be searched with <code>GET /api/students?admission_number=A2001</code>, updated with <code>PATCH /api/students/:id</code>, connected to a course with <code>POST /api/applications</code>, accepted with <code>PATCH /api/applications/:id/status</code>, or deleted with <code>DELETE /api/students/:id</code>.</p>
+    </section>
+
+    <section id="demos" class="section">
+      <h2>18. Interactive Learning Demos</h2>
+      <div class="interactive-grid">
+        <article class="interactive-card">
+          <h3>REST Method → SQL</h3>
+          <select id="methodSelect">
+            <option value="POST">POST</option>
+            <option value="GET">GET</option>
+            <option value="PATCH">PATCH</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+          <p id="methodResult" class="result-box"></p>
+        </article>
+        <article class="interactive-card">
+          <h3>Show Create Student SQL</h3>
+          <button id="showStudentSql">Show SQL</button>
+          <pre id="studentSqlOutput"><code>Click the button.</code></pre>
+        </article>
+        <article class="interactive-card">
+          <h3>Click Each Layer</h3>
+          <div class="layer-buttons">
+            <button data-layer="frontend">Frontend</button>
+            <button data-layer="backend">Backend</button>
+            <button data-layer="database">Database</button>
+          </div>
+          <p id="layerOutput" class="result-box">Choose a layer.</p>
+        </article>
+        <article class="interactive-card">
+          <h3>Mini Request-Flow Simulator</h3>
+          <select id="flowSelect">
+            <option value="createStudent">POST /api/students</option>
+            <option value="searchStudent">GET /api/students?admission_number=A1001</option>
+            <option value="updateStatus">PATCH /api/applications/:id/status</option>
+          </select>
+          <ol id="flowOutput" class="simulator"></ol>
+        </article>
+      </div>
+      <details class="quiz"><summary>Quick quiz: why can the frontend not directly access PostgreSQL?</summary><p>Because browser code is public. Exposing database credentials or raw SQL access would allow users to bypass the backend and damage or steal data.</p></details>
+    </section>
+
+    <section id="misconceptions" class="section">
+      <h2>19. Common Misconceptions</h2>
+      <div class="card-grid two">
+        <article class="card"><h3>Frontend does not access DB</h3><p>It calls APIs. Express talks to PostgreSQL.</p></article>
+        <article class="card"><h3>PostgreSQL can store files</h3><p>It can store binary data with <code>BYTEA</code>, but URLs are usually better for large files.</p></article>
+        <article class="card"><h3>Constraints are not SQL injection protection</h3><p>Constraints validate rows. Parameterized queries protect SQL execution.</p></article>
+        <article class="card"><h3>UUID is not just text</h3><p>It is a 128-bit identifier with a standard representation.</p></article>
+        <article class="card"><h3>Primary key is a rule</h3><p>It is a table-level uniqueness rule, usually applied to one column.</p></article>
+        <article class="card"><h3>PUT and PATCH differ</h3><p>Both often run SQL <code>UPDATE</code>, but PUT usually replaces a resource while PATCH partially updates it.</p></article>
+      </div>
+    </section>
+
+    <section id="summary" class="section">
+      <h2>20. Summary</h2>
+      <details open><summary>30-second summary</summary><p>This project is a full-stack admission app. HTML/JS sends requests to Express. Express validates input and runs safe PostgreSQL queries. PostgreSQL stores students, courses, applications, and documents with UUIDs, foreign keys, and constraints.</p></details>
+      <details><summary>1-minute summary</summary><p>A user fills forms in the browser. JavaScript calls routes like <code>POST /api/students</code>. Express receives JSON, uses route files to run parameterized SQL through <code>pg</code>, and PostgreSQL enforces the schema. Responses return as JSON and are displayed on the page.</p></details>
+      <details><summary>Full technical summary</summary><p>The backend starts in <code>server.js</code>, connects route modules, and uses <code>db/connection.js</code> for pooled PostgreSQL access. SQL files define UUID primary keys, foreign keys, unique constraints, checks, defaults, and reversible migrations. The frontend stays thin and safe by calling APIs instead of accessing the database directly.</p></details>
+    </section>
+
+    <section id="practice" class="section">
+      <h2>21. Practice Questions</h2>
+      <div id="practiceQuestions" class="questions"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

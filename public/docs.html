@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Concepts - Student Admission System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Educational DBMS Visualization</p>
+      <h1>How the System Works</h1>
+      <p>This page connects the UI, REST API, SQL, relational design, and migration concepts used in the project.</p>
+    </div>
+    <div>
+      <a class="button ghost" href="index.html">Back to App</a>
+      <a class="button ghost" href="learning/index.html">Learning Page</a>
+      <a class="button ghost" href="https://github.com/Amantabyte/student-admission-db-project" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+    </div>
+  </header>
+
+  <main class="doc-grid">
+    <section class="panel">
+      <h2>Frontend → Backend → Database</h2>
+      <div class="flow">
+        <span>HTML Form</span>
+        <strong>→</strong>
+        <span>fetch()</span>
+        <strong>→</strong>
+        <span>Express Route</span>
+        <strong>→</strong>
+        <span>Parameterized SQL</span>
+        <strong>→</strong>
+        <span>PostgreSQL</span>
+      </div>
+      <p>The frontend never connects directly to PostgreSQL. It sends HTTP requests to Express, and Express safely talks to the database.</p>
+    </section>
+
+    <section class="panel">
+      <h2>REST API to SQL Mapping</h2>
+      <p><code>POST</code> maps to <code>INSERT</code> for creating rows.</p>
+      <p><code>GET</code> maps to <code>SELECT</code> for reading rows.</p>
+      <p><code>PATCH</code> and <code>PUT</code> map to <code>UPDATE</code> for changing rows.</p>
+      <p><code>DELETE</code> maps to <code>DELETE</code> for removing rows.</p>
+    </section>
+
+    <section class="panel">
+      <h2>DML Meaning</h2>
+      <p>DML means Data Manipulation Language. The main DML commands are <code>INSERT</code>, <code>SELECT</code>, <code>UPDATE</code>, and <code>DELETE</code>.</p>
+    </section>
+
+    <section class="panel">
+      <h2>ERD Text Diagram</h2>
+      <div class="box">
+        <strong>students</strong><br>
+        PK id<br>
+        admission_number, name, email
+      </div>
+      <p>1 student can have many applications and documents.</p>
+      <div class="box">
+        <strong>courses</strong><br>
+        PK id<br>
+        code, name, duration_months
+      </div>
+      <p>1 course can appear in many applications.</p>
+      <div class="box">
+        <strong>applications</strong><br>
+        PK id<br>
+        FK student_id → students.id<br>
+        FK course_id → courses.id
+      </div>
+      <div class="box">
+        <strong>documents</strong><br>
+        PK id<br>
+        FK student_id → students.id
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Primary Key vs Foreign Key</h2>
+      <p>A primary key uniquely identifies one row in its own table. A foreign key points to a primary key in another table and creates a relationship.</p>
+    </section>
+
+    <section class="panel">
+      <h2>UUID</h2>
+      <p>A UUID is a 128-bit identifier. This project uses <code>gen_random_uuid()</code> from PostgreSQL <code>pgcrypto</code> to generate IDs.</p>
+      <p>UUIDs help distributed systems because different services or machines can create IDs without asking one central counter for the next number.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Documents and File Storage</h2>
+      <p>PostgreSQL can store binary data, but real projects usually store files in object storage or a file service, then store only the file URL in the database.</p>
+    </section>
+
+    <section class="panel">
+      <h2>SQL Injection</h2>
+      <p>Unsafe example: <code>"SELECT * FROM students WHERE email = '" + email + "'"</code></p>
+      <p>Safe example: <code>SELECT * FROM students WHERE email = $1</code> with values passed separately as <code>[email]</code>.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Constraints</h2>
+      <p><code>NOT NULL</code> requires a value. <code>UNIQUE</code> prevents duplicates. <code>CHECK</code> enforces a rule, like positive course duration or valid application status.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Referential Integrity</h2>
+      <p>Foreign keys prevent applications from referencing students or courses that do not exist. They keep relationships valid.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Migrations</h2>
+      <p>An up script creates or changes schema objects. A down script reverses the change, such as dropping a table. This makes schema changes repeatable and reviewable.</p>
+    </section>
+  </main>
+</body>
+</html>

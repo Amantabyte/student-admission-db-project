@@ -1,0 +1,29 @@
+{
+  "name": "student-admission-db-project",
+  "version": "1.0.0",
+  "description": "Student Admission System demonstrating PostgreSQL, relational design, migrations, CRUD, and REST-to-SQL mapping.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "migrate:up": "node scripts/run-sql.js db/schema.sql",
+    "seed": "node scripts/run-sql.js db/seed.sql"
+  },
+  "keywords": [
+    "postgresql",
+    "express",
+    "crud",
+    "database",
+    "student-admission"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

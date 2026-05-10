@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Student Admission Architecture</title>
+  <desc id="desc">Layered architecture showing frontend, API, route handlers, database connection, and PostgreSQL tables.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#123c45"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="620" rx="36" fill="#f7fbf4"/>
+  <text x="600" y="50" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#17352f">Architecture of This Project</text>
+  <g font-family="Verdana, sans-serif" font-size="18">
+    <rect x="55" y="105" width="245" height="405" rx="24" fill="#ffffff" stroke="#0f766e" stroke-width="4"/>
+    <text x="177" y="145" text-anchor="middle" font-size="24" font-weight="700" fill="#0f766e">Frontend Layer</text>
+    <rect x="85" y="180" width="185" height="70" rx="16" fill="#dff8f1"/>
+    <text x="177" y="222" text-anchor="middle">index.html</text>
+    <rect x="85" y="275" width="185" height="70" rx="16" fill="#dff8f1"/>
+    <text x="177" y="317" text-anchor="middle">app.js fetch()</text>
+    <rect x="85" y="370" width="185" height="70" rx="16" fill="#dff8f1"/>
+    <text x="177" y="412" text-anchor="middle">JSON display</text>
+    <line x1="315" y1="306" x2="420" y2="306" stroke="#123c45" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="435" y="105" width="300" height="405" rx="24" fill="#ffffff" stroke="#d97706" stroke-width="4"/>
+    <text x="585" y="145" text-anchor="middle" font-size="24" font-weight="700" fill="#b45309">Express API</text>
+    <rect x="470" y="180" width="230" height="58" rx="14" fill="#fff3d2"/>
+    <text x="585" y="216" text-anchor="middle">server.js</text>
+    <rect x="470" y="258" width="230" height="58" rx="14" fill="#fff3d2"/>
+    <text x="585" y="294" text-anchor="middle">routes/students.js</text>
+    <rect x="470" y="336" width="230" height="58" rx="14" fill="#fff3d2"/>
+    <text x="585" y="372" text-anchor="middle">routes/applications.js</text>
+    <rect x="470" y="414" width="230" height="58" rx="14" fill="#fff3d2"/>
+    <text x="585" y="450" text-anchor="middle">parameterized SQL</text>
+    <line x1="750" y1="306" x2="830" y2="306" stroke="#123c45" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="845" y="105" width="300" height="405" rx="24" fill="#ffffff" stroke="#2563eb" stroke-width="4"/>
+    <text x="995" y="145" text-anchor="middle" font-size="24" font-weight="700" fill="#1d4ed8">Database Layer</text>
+    <rect x="880" y="180" width="230" height="58" rx="14" fill="#e8f0ff"/>
+    <text x="995" y="216" text-anchor="middle">db/connection.js</text>
+    <rect x="880" y="258" width="230" height="58" rx="14" fill="#e8f0ff"/>
+    <text x="995" y="294" text-anchor="middle">students</text>
+    <rect x="880" y="336" width="230" height="58" rx="14" fill="#e8f0ff"/>
+    <text x="995" y="372" text-anchor="middle">courses</text>
+    <rect x="880" y="414" width="230" height="58" rx="14" fill="#e8f0ff"/>
+    <text x="995" y="450" text-anchor="middle">applications + documents</text>
+    <text x="600" y="565" text-anchor="middle" font-size="21" font-weight="700" fill="#17352f">The browser calls routes. Routes run SQL. PostgreSQL enforces schema rules.</text>
+  </g>
+</svg>
